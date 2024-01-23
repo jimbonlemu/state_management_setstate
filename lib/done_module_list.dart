@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:state_management_setstate/done_module_provider.dart';
 
-class DoneModuleList extends StatefulWidget {
-  final List<String> doneModuleList;
-  const DoneModuleList({super.key, required this.doneModuleList});
+class DoneModuleList extends StatelessWidget {
+  const DoneModuleList({super.key});
 
-  @override
-  State<DoneModuleList> createState() => _DoneModuleListState();
-}
-
-class _DoneModuleListState extends State<DoneModuleList> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Done Module List'),
-      ),
-      body: ListView.builder(
-        itemCount: widget.doneModuleList.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(widget.doneModuleList[index]),
-          );
-        },
-      ),
-      floatingActionButton: ElevatedButton(
-          onPressed: () {
-            setState(() {
-              widget.doneModuleList.clear();
-            });
+    final doneModuleList =
+        Provider.of<DoneModuleProvider>(context, listen: false).doneModuleList;
+    return Consumer<DoneModuleProvider>(builder: (context, value, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Done Module List'),
+        ),
+        body: ListView.builder(
+          itemCount: doneModuleList.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(doneModuleList[index]),
+              trailing: ElevatedButton(
+                  onPressed: () {
+                    value.cleanerAt(index);
+                  },
+                  child: Icon(Icons.delete)),
+            );
           },
-          child: Icon(Icons.delete)),
-    );
+        ),
+        floatingActionButton:
+            ElevatedButton(onPressed: () {}, child: Icon(Icons.delete)),
+      );
+    });
   }
 }
