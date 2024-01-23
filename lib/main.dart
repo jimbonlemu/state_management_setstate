@@ -27,6 +27,7 @@ class ModulePage extends StatefulWidget {
 }
 
 class _ModulePageState extends State<ModulePage> {
+  final List<String> doneModuleList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,14 +38,14 @@ class _ModulePageState extends State<ModulePage> {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return DoneModuleList();
+                    return DoneModuleList(doneModuleList: doneModuleList,);
                   },
                 ));
               },
               icon: Icon(Icons.done))
         ],
       ),
-      body: ModuleList(),
+      body: ModuleList(doneModuleList: doneModuleList,),
     );
   }
 }
